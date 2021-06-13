@@ -8,13 +8,40 @@ body {
   /* animation: size 3s infinite linear; */
 }
 
+.key-words-to-display {
+transform: translateY(0);
+animation:fl1 3s infinite linear;
+}
+.key-words-to-display::before{
+  position: absolute;
+  clip-path:polygon(0 0, 100% 0 , 100% 50%, 0 50%);
+  animation:fl2 3s infinite linear;
+  }
+  @keyframes fl1 {
+    30%{
+      transform: translateY(10%) rotate(2deg);
+    }
+    70%{
+      transform: translateY(10%) rotate(-2deg);
+    }
+  }
+
+  @keyframes fl2 {
+    30%{
+      clip-path:polygon(0 0, 100% 0 , 100% 24%, 0 56%)
+    }
+    70%{
+      clip-path:polygon(0 0, 100% 0 , 100% 56%, 0 24%)
+    }
+  }
+
 .rtl {
     direction: rtl;
 }
 
 img {
-  height: 100%;
-  width: 100%;
+  max-width:100% ;
+   height:auto;
 }
 
 button img {
@@ -61,8 +88,11 @@ button:hover span:after {
 }
 
 .search{
-display: block;
-margin: auto;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding-top: 10px;
+
 }
 
 .search button{
@@ -339,9 +369,23 @@ a:hover {
 
 
 @media screen and (max-width: 780px) {
+  .main-layout {
+    max-width: 500px;
+  }
+.edit-photo-container{
+  display: grid;
+  gap: 5px;
+}
+.font-oprations{
+  display: contents;
+}
+.size{
+  display: grid;
+}
 }
 
 @media screen and (max-width: 450px) {
+
 }
 
  

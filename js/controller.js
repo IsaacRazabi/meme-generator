@@ -24,9 +24,11 @@ let gFontSize = 40;
 let gWidthFirst = 20;
 let gWidthMiddle = 20;
 let gWidthlast = 20;
-let gNames = [];
-let gSearchFont = {};
 let gSearchNames = [];
+let gIsApper;
+// let gOutLineFirst =
+// let gOutLineMiddle =
+// let gOutLineLast =
 
 function init() {
   gCanvas = document.querySelector(".canvas");
@@ -37,6 +39,13 @@ function init() {
   let elEditSection = document.querySelector(".edit-photo-container");
   elEditSection.classList.add("hide");
   renderGallary();
+  window.addEventListener("resize", resizeCanvas);
+}
+
+function resizeCanvas() {
+  let elContainer = document.querySelector(".canvas-container");
+  gCanvas.width = elContainer.offsetWidth;
+  gCanvas.height = elContainer.offsetHeight;
 }
 
 function toogleVisability() {
@@ -46,6 +55,7 @@ function toogleVisability() {
   elMainGallary.classList.remove("hide");
   let elYourOwnPhoto = document.querySelector(".own-photos");
   elYourOwnPhoto.classList.remove("hide");
+  renderGallary();
 }
 
 function searchByKeyWords(value) {
@@ -79,58 +89,15 @@ function showChoosenPhoto(src) {
   gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
 }
 
-// // mousedown event mimicks to drag start event and stores x, y cords to start the imaginary rectangle
-// $canvas.addEventListener("mousedown", e => {
-//     let cX = $canvas.getBoundingClientRect().left + window.scrollX;
-//     let cY = $canvas.getBoundingClientRect().top + window.scrollY;
-//     startX = e.pageX - cX;
-//     startY = e.pageY - cY;
-// });
-
-// // mouseup event mimicks to drag end event and stores x, y cords to end the imaginary rectangle
-// $canvas.addEventListener("mouseup", e => {
-//     let cX = $canvas.getBoundingClientRect().left + window.scrollX;
-//     let cY = $canvas.getBoundingClientRect().top + window.scrollY;
-//     endX = e.pageX - cX;
-//     endY = e.pageY - cY;
-
-//     if (startX !== endX) {
-//         if (startY > endY) {
-//             let tempX = startX;
-//             let tempY = startY;
-//             startX = endX;
-//             startY = endY;
-//             endX = tempX;
-//             endY = tempY;
-//         }
-//         drawRectangle();
-//     }
-// });
-
-// // draws triangle with given x, y cords and random color
-// function drawRectangle() {
-//     ctx.beginPath();
-//     ctx.fillStyle = randomColor(); // method to get random color
-//     ctx.strokeStyle = "black";
-//     ctx.lineWidth = 1;
-//     ctx.moveTo(startX + (endX - startX) / 2, startY);
-//     ctx.lineTo(startX, endY);
-//     ctx.lineTo(endX, endY);
-//     ctx.lineTo(startX + (endX - startX) / 2, startY);
-//     ctx.stroke();
-//     ctx.fill();
-//     ctx.closePath();
-// }
-
-// // clear event to clear th canvas
-// $clear.addEventListener('click', (e) => {
-//     ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-// });
+function drawOutLine(linestart, width, line) {
+  // gCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
+  // gCtx.strokeRect(10,linestart*0.9 , width,linestart )
+}
 
 function onTyping(ev, inputText) {
-  var measureTextWidth = gCtx.measureText(inputText).width;
+  let measureTextWidth = gCtx.measureText(inputText).width;
   let textWidthPos = 20;
-  gCtx.font = `${gFontSize}`+'px' + ' ' +  `${gFont}`;
+  gCtx.font = `${gFontSize}` + "px" + " " + `${gFont}`;
   gCtx.strokeStyle = gColorStrok;
   gCtx.fillStyle = gColorFill;
   gCtx.textAlign = gAlign;
@@ -140,12 +107,18 @@ function onTyping(ev, inputText) {
   gCurrText = inputText;
   let char = gCurrText.substr(gCurrText[0]);
   //    textWidthPos = gCtx.measureText(char).width;
-
   // gCtx.fillText('gCurrText' ,width , gLineMiddel);
-  console.log(gWidthFirst, gWidthMiddle, gWidthlast);
+
+  // Draw blue rect outline
+
+  // // Draw transparent yellow rect
+  // ctx.fillStyle = "rgba(255, 255, 0, 0.75)";
+  // ctx.fillRect(210, 180, 125, 125);
+
   if (gIsFirst) {
     gCtx.strokeText(inputText, gWidthFirst, gLineFirst);
     gCtx.fillText(inputText, gWidthFirst, gLineFirst);
+    // drawOutLine(measureTextWidth,gLineFirst)
     gCtx.strokeText(gMiddleText, textWidthPos, gLineMiddel);
     gCtx.fillText(gMiddleText, textWidthPos, gLineMiddel);
     gCtx.strokeText(gLastText, textWidthPos, gLineLast);
@@ -170,6 +143,22 @@ function onTyping(ev, inputText) {
     gCtx.fillText(inputText, textWidthPos, gLineLast);
   }
 }
+
+function changeCoordsX(x) {
+  let currActive;
+  if (gIsLast) currActive = gLineLast;
+  if (gIsMiddle) currActive = gLineMiddel;
+  if (gIsFirst) currActive = gLineFirst;
+  gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+  gCtx.drawImage(gCurrPhoto, 0, 0, gCanvas.width, gCanvas.height);
+  gCtx.fillText(gCurrText, x, currActive);
+}
+function changeCoordsY(y) {
+  gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+  gCtx.drawImage(gCurrPhoto, 0, 0, gCanvas.width, gCanvas.height);
+  gCtx.fillText(gCurrText,  20,  y);
+}
+
 function colorChoiseStrok(color) {
   gColorStrok = color;
 }
@@ -182,7 +171,6 @@ function addSticer(src) {
   img.src = src;
   gCtx.drawImage(img, 0, 0, 200, 200);
 }
-
 
 function deleteLine() {
   if (gIsFirst) {
@@ -204,6 +192,8 @@ function SwitchLine() {
     gIsFirst = false;
     gIsMiddle = false;
     gIsLast = true;
+    let measureTextWidth = gCtx.measureText(gLastText).width;
+    drawOutLine(gLineLast, gCanvas.width, measureTextWidth);
   } else if (gLineLocation === 1) {
     let metrics = gCtx.measureText(gMiddleText);
     gWidthlast = metrics.width + 20;
@@ -214,6 +204,7 @@ function SwitchLine() {
     gIsFirst = false;
     gIsLast = false;
     gIsMiddle = true;
+    drawOutLine(gCanvas.width, gLineMiddel);
   } else if (gLineLocation === 2) {
     gWidthMiddle = gCtx.measureText(gFirstText).width + 20;
     // gWidthMiddle = metrics.width +20;
@@ -224,6 +215,7 @@ function SwitchLine() {
     gIsMiddle = false;
     gIsLast = false;
     gLineLocation = -1;
+    drawOutLine(gCanvas.width, gLineFirst);
   }
   gLineLocation++;
 }
@@ -273,7 +265,7 @@ function decreaseFont() {
 }
 
 function onSetLeft() {
-  document.querySelector(".text").classList.remove("rtl")
+  document.querySelector(".text").classList.remove("rtl");
   gWidthFirst = 20;
   gWidthMiddle = 20;
   gWidthlast = 20;
@@ -282,7 +274,7 @@ function onSetLeft() {
   doTrans();
 }
 function onSetRight() {
-  document.querySelector(".text").classList.add("rtl")
+  document.querySelector(".text").classList.add("rtl");
   gWidthFirst = 380;
   gWidthMiddle = 380;
   gWidthlast = 380;
@@ -291,7 +283,7 @@ function onSetRight() {
   doTrans();
 }
 function onSetCenter() {
-  document.querySelector(".text").classList.remove("rtl")
+  document.querySelector(".text").classList.remove("rtl");
   gWidthFirst = gCanvas.height / 2;
   gWidthMiddle = gCanvas.height / 2;
   gWidthlast = gCanvas.height / 2;
@@ -301,35 +293,43 @@ function onSetCenter() {
 }
 
 function searchByKeyWords(keyword) {
-  goSearch(keyword)
+  goSearch(keyword);
 }
-
 
 function onKeyWordsToDisplay(keyword) {
-  let strHTML = '';
-  if(!gSearchNames) gSearchNames.forEach((name)=>{
-  if(name.name===keyword){
-    gSearchNames.fontSize+=5;
+  let strHTML = "";
+  gIsApper = false;
+  gSearchNames.forEach((value) => {
+    if (value.name === keyword) {
+      gIsApper = true;
+      value.fontSize += 10;
+    }
+  });
+  if (!gIsApper) {
+    createSearchWord(keyword);
   }
-})
-else{
-  createSearchWord(keyword)
-}
-  
-let elSearchWordsToDisplay = document.querySelector(".key-words-to-display");
-gSearchNames.forEach((name)=>{
-  strHTML+= `
-  <span class = "${name.name}"> ${name.name} </span> 
-  `
-})
-console.log(strHTML,gSearchNames);
-elSearchWordsToDisplay.innerHTML = strHTML;
+
+  let elSearchWordsToDisplay = document.querySelector(".key-words-to-display");
+  gSearchNames.forEach((name) => {
+    strHTML += `
+  <span class= "${name.name}"> ${name.name} </span> 
+  `;
+  });
+  elSearchWordsToDisplay.innerHTML = strHTML;
+  changeFont();
 }
 
-function createSearchWord(name,fontSize=5){
-let searchName = {
-  name,
-  fontSize,
+function changeFont() {
+  gSearchNames.forEach((name) => {
+    let elWord = document.querySelector(`.${name.name}`);
+    elWord.style.fontSize = `${name.fontSize}px`;
+  });
 }
-gSearchNames.push(searchName);
+
+function createSearchWord(name, fontSize = 15) {
+  let searchName = {
+    name,
+    fontSize,
+  };
+  gSearchNames.push(searchName);
 }

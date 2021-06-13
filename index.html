@@ -12,7 +12,7 @@
       <div class="logo"><a onclick="toogleVisability()"><img src="images/LOGO/LOGO.png" alt=""> </a></div>
     </header>
 
-    <div class="key-words-to-display"></div>
+  
 
     <div class="own-photos main-layout ">
         <img class="user-photo" src="/images/add your own section/maxresdefault.jpg" alt="">
@@ -26,7 +26,8 @@
         />
         <div class="search">
             <input type="text" id="searchTxt" class="searchField" onfocus="this.value=''"/>
-<input type="button" value="search your mems" onclick="searchByKeyWords(searchTxt.value)">
+<input type="button" value="search your mems" onclick="searchByKeyWords(searchTxt.value)" onfocus="this.value">
+<div class="key-words-to-display"></div>
         </div>
     </div>
 
@@ -52,6 +53,12 @@
         <button><img onclick="onSetLeft()" src="icons/align-to-left.png" alt=""></button>
         <button><img onclick="onSetCenter()" src="icons/center-text-alignment.png" alt=""></button>
         <button><img onclick="onSetRight()"  src="icons/align-to-right.png" alt=""></button>
+    </div>
+    <div class="size">
+       <input  onchange="changeCoordsX(this.value)" min="0" max="500" type="range"/>
+      <label for="x">move to the side</label>
+      <input onchange="changeCoordsY(this.value)" min=0" max="500" type="range"/>
+      <label for="y">move to the top/buttom</label>
     </div>
     <div class="fonts-editor flex justify-content ">
     <select class="fonts" onchange="textChoise(this.value)" name="fonts" id="">
