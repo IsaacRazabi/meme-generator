@@ -42,11 +42,11 @@ function init() {
   window.addEventListener("resize", resizeCanvas);
 }
 
-function resizeCanvas() {
-  let elContainer = document.querySelector(".canvas-container");
-  gCanvas.width = elContainer.offsetWidth;
-  gCanvas.height = elContainer.offsetHeight;
-}
+// function resizeCanvas() {
+//   let elContainer = document.querySelector(".pohoto-to-dispaly");
+//   gCanvas.width = elContainer.offsetWidth;
+//   gCanvas.height = elContainer.offsetHeight;
+// }
 
 function toogleVisability() {
   let elEditSection = document.querySelector(".edit-photo-container");
