@@ -1,24 +1,51 @@
+let gCanvas;
+let gCtx;
+let gCurrPhoto = "";
+let gLineLocation = 0;
+let gLineFirst = 50;
+let gCurrText = "";
+let gFirstText = "";
+let gIsFirst = true;
+let gIsMiddle = false;
+let gIsLast = false;
+let gMiddleText = "";
+let gLastText = "";
+let gLineMiddel = 200;
+let gLineLast = 380;
+let isLineMiddel = false;
+let gColorStrok = "red";
+let gColorFill = "white";
+let gAlign = "start";
+let gImg = "";
+let gFont = "impact";
+let gFontSize = 40;
+let gWidthFirst = 20;
+let gWidthMiddle = 20;
+let gWidthlast = 20;
+let gSearchNames = [];
+let gIsApper;
+
 let gKeywords = {
   "Ancient Aliens": 0,
   "funny puk": 0,
-  "baby": 0,
- "dog": 0,
-  "cat": 0,
-  "matrix": 0,
-  "drevil": 0,
-  "listen": 0,
-  "hugging": 0,
-  "leo": 0,
-  "obama": 0,
+  baby: 0,
+  dog: 0,
+  cat: 0,
+  matrix: 0,
+  drevil: 0,
+  listen: 0,
+  hugging: 0,
+  leo: 0,
+  obama: 0,
   "One Does Not Simply": 0,
-  "Oprah": 0,
-  "patrick": 0,
- " putin": 0,
-  "trump": 0,
-  "tzadik": 0,
+  Oprah: 0,
+  patrick: 0,
+  " putin": 0,
+  trump: 0,
+  tzadik: 0,
   "tzlili hamozika": 0,
-  "whatt": 0,
-  "Everywhere": 0,
+  whatt: 0,
+  Everywhere: 0,
 };
 let gImgs = [
   {
@@ -75,40 +102,49 @@ let gImgs = [
     keywords: ["Everywhere"],
   },
 ];
-let gMeme = {};
-let gMemes =[];
+// let gMeme = {};
+let gMemes = [];
+// let gMeme={}
 
 
-function createMeme() {
-  let meme = {
-        txt: "I never eat Falafel",
-        size: 20,
-        align: "left",
-        color: "red",
-  };
-  return meme;
+  function getImgId(src){
+    let imgId = gImgs.find((img)=>{
+      img===src;
+    })
 }
 
-function createMemes() {
-  gMeme = createMeme();
-}
+// function createMeme(imgId,selectedLineIdx,txt){
+//   let gMeme = {
+//     selectedImgId: imgId,
+//     selectedLineIdx:selectedLineIdx,
+//     lines: [
+//       { txt: txt, size: 20, align: "left", color: "red" },
+//     ],
+//   };
+//   gMemes.push(gMeme)
+//   return meme;
+// }
 
-function updateKeyWords(name){
-    for (const keyword in gKeywords) {
-    if (keyword.includes(name)){
-    gKeywords[keyword]++;
-    onKeyWordsToDisplay(name)
+// function createMemes() {
+//   gMemes = createMeme();
+// }
+
+function updateKeyWords(name) {
+  for (const keyword in gKeywords) {
+    if (keyword.includes(name)) {
+      gKeywords[keyword]++;
+      onKeyWordsToDisplay(name);
     }
-        }
+  }
 }
 
 function goSearch(value) {
-updateKeyWords(value);
-let filteredBySearch = [];
-gImgs.forEach((name)=>{
-   if (name.keywords[0].includes(value)) filteredBySearch.push(name);
-})
-renderGallary(filteredBySearch)
+  updateKeyWords(value);
+  let filteredBySearch = [];
+  gImgs.forEach((name) => {
+    if (name.keywords[0].includes(value)) filteredBySearch.push(name);
+  });
+  renderGallary(filteredBySearch);
 }
 
 // on submit call to this function
@@ -153,3 +189,4 @@ function _makeId(length = 5) {
   }
   return txt;
 }
+
