@@ -265,10 +265,15 @@ let gCurrIdx = 0;
 
 function getInput(text,ev) {
 if(ev.which ===8 || ev.which === 46){
- text=text.substr(0,text.length-1);
- gCurrText = text;
- gMeme.lines[gCurrIdx].txt=text
- drawOnCanvas(gMeme.lines);
+//  text=text.substr(0,text.length-1);
+//  gCurrText = text;
+//  gMeme.lines[gCurrIdx].txt=text
+//  drawOnCanvas(gMeme.lines);
+
+ gMeme.lines[gCurrIdx].txt=text.substr(0,text.length-1);;
+  gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+  gCtx.drawImage(gCurrPhoto, 0, 0, gCanvas.width, gCanvas.height);
+  drawOnCanvas(gMeme.lines);
 }
  else{
   gCurrText = text;
@@ -361,7 +366,8 @@ function switchLine() {
 
 
 function deleteLine() {
-for (const meme of gMeme) {
- console.log(meme); 
-}
+  gMeme.lines[gCurrIdx].txt='';
+  gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+  gCtx.drawImage(gCurrPhoto, 0, 0, gCanvas.width, gCanvas.height);
+  drawOnCanvas(gMeme.lines);
 }
