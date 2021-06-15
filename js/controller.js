@@ -196,6 +196,8 @@ function onSetLeft() {
   gAlign = "start";
   chooseLang("en");
   doTrans();
+  gMeme.lines[gCurrIdx].txt='';
+  drawOnCanvas(gMeme.lines);
 }
 function onSetRight() {
   document.querySelector(".text").classList.add("rtl");
@@ -203,6 +205,8 @@ function onSetRight() {
   gAlign = "end";
   chooseLang("he");
   doTrans();
+  gMeme.lines[gCurrIdx].txt='';
+  drawOnCanvas(gMeme.lines);
 }
 function onSetCenter() {
   document.querySelector(".text").classList.remove("rtl");
@@ -210,6 +214,8 @@ function onSetCenter() {
   gAlign = "center";
   chooseLang("en");
   doTrans();
+  gMeme.lines[gCurrIdx].txt='';
+  drawOnCanvas(gMeme.lines);
 }
 
 function searchByKeyWords(keyword) {
@@ -261,7 +267,6 @@ function getInput(text,ev) {
 if(ev.which ===8 || ev.which === 46){
  text=text.substr(0,text.length-1);
  gCurrText = text;
- if (!gMeme) createMeme(text);
  gMeme.lines[gCurrIdx].txt=text
  drawOnCanvas(gMeme.lines);
 }
