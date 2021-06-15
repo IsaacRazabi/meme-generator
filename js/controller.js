@@ -40,6 +40,7 @@ function renderGallary(galaary = gImgs) {
     <img onclick="showChoosenPhoto(this.src)"  class="card-image zoom"  src="${img.url}" alt=""  /> 
     <div class="card-tag"></div>
   </div>
+  <div class="self-cards" ></div>
   `;
   });
   let elMainGallary = document.querySelector(".main-content");
